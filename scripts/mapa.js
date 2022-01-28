@@ -35,52 +35,77 @@ cargarPagina();
 $(".draggable").draggable({
     revert: true,
     revertDuration: 0,
+    // start: function(event, ui){
+    //     $("#Draggable").droppable('disable');
+    // }
 });
 $('#campos').droppable({
-    drop: function(event, ui) {
-        var id = $(ui.draggable).attr("id");
-        sDatos = "";
-        if(localStorage.getItem(id) != 'true'){
-            localStorage.setItem(id, true);
-            aLocalizaciones.forEach(element => {
-                localStorage.getItem(element.Id) != null ? sDatos +=  GenerarCartas(element.Id) : "";
-                $(`#${element.Id}`).html() === undefined ? $('#campos').html(sDatos) : EliminarHtml(element.Id), $('#campos').html(sDatos);
-            });
-            activarBotones();
-        }
+    drop: function (event, ui) {
+        var id = $(ui.draggable).attr("alt");
+        localStorage.getItem(id) != 'true' ?   hacerOpciones(id, true) : ""; 
     }
 });
+function hacerOpciones(id, estado){
+    sDatos = "";
+    localStorage.setItem(id, estado);
+    aLocalizaciones.forEach(element => {
+        if( localStorage.getItem(element.Id) != null){
+            sDatos += GenerarCartas(element.Id);
+        }
+        $(`#${element.Id}`).html() === undefined ? $('#campos').html(sDatos) : EliminarHtml(element.Id), $('#campos').html(sDatos);
+        activarDraggable();
+    });
+    activarBotones();
+}
 function Añadir(Codigo, Nombre) {
     localStorage.getItem(Codigo) === null ? localStorage.setItem(Codigo, Nombre) : localStorage.removeItem(Codigo);
     $(`#${Codigo}`).html() === undefined ? AñadirHtml(Codigo) : EliminarHtml(Codigo);
 }
-
+function activarDraggable() {
+    $(".draggable2").draggable({
+        revert: true,
+        revertDuration: 0,
+        start: function (event, ui) {
+            // $("#Draggable").droppable("enable")
+            $("#Draggable").droppable({
+                disable: false, 
+                drop: function (event, ui) {
+                    var id = $(ui.draggable).attr("alt");
+                    hacerOpciones(id, false);
+                }
+            });
+        }
+    });
+    
+}
 function AñadirHtml(Codigo) {
     if ($(`#${localStorage.getItem(Codigo)}`).html() === undefined) {
         if ($("#campos").html() === sNoCampos) {
             $("#campos").html(GenerarCartas(Codigo));
+            activarDraggable();
         } else {
             $("#campos").html($("#campos").html() + GenerarCartas(Codigo));
+            activarDraggable();
         }
         activarBotones();
 
     }
 
 }
-function activarBotones(){
+function activarBotones() {
     $(`.btn-close`).on("click", function () {
         $(`#${this.value}`).remove();
         localStorage.removeItem(this.value);
         $("#campos").html() === '' ? $("#campos").html(sNoCampos) : "";
     });
 }
-function GenerarCartas(Codigo){
+function GenerarCartas(Codigo) {
     sDatoNuevo = `<div class="card col" id="${Codigo}">  <div class="card-body>"> <h4 class="card-title"> ${localStorage.getItem(Codigo)}</h4>`;
     sDatoNuevo += `<button class="btn-close" id="btn${Codigo}" value="${Codigo}"></button>`;
-    localStorage.getItem("Temperatura") === 'true' ? sDatoNuevo += `<p class="Temperatura">Temperatura</p>` : "";
-    localStorage.getItem("Viento") === 'true' ? sDatoNuevo += `<p class="Viento">Viento</p>` : "";
-    localStorage.getItem("Tiempo") === 'true' ? sDatoNuevo += `<p class="Tiempo">Tiempo</p>` : "";
-    localStorage.getItem("Precipitacion") === 'true' ? sDatoNuevo += `<p class="Precipitacion">Precipitacion</p>` : "";
+    localStorage.getItem("Temperatura") === 'true' ? sDatoNuevo += `<h5 class="bi bi-thermometer draggable2" role="img" alt="Temperatura"></h5>` : "";
+    localStorage.getItem("Viento") === 'true' ? sDatoNuevo += `<h5 class="bi bi-wind draggable2" role="img" alt="Viento"></h5>` : "";
+    localStorage.getItem("Tiempo") === 'true' ? sDatoNuevo += `<h5 class="bi bi-cloud draggable2" role="img" alt="Tiempo"></h5>` : "";
+    localStorage.getItem("Precipitacion") === 'true' ? sDatoNuevo += `<h5 class="bi bi-umbrella draggable2" role="img" alt="Precipitacion"></h5>` : "";
     sDatoNuevo += "</div></div>"
     return sDatoNuevo;
 }
