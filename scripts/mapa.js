@@ -32,6 +32,7 @@ aLocalizaciones.forEach(element => {
 });
 group.addTo(mymap);
 cargarPagina();
+$('#btnMapa').on('click', function (){ $('#map').toggle('slow')})
 $(".draggable").draggable({
     revert: true,
     revertDuration: 0,
@@ -45,6 +46,9 @@ $('#campos').droppable({
         localStorage.getItem(id) != 'true' ?   hacerOpciones(id, true) : ""; 
     }
 });
+// function ocultarMapa(){
+//     $('#map').toggle()
+// }
 function hacerOpciones(id, estado){
     sDatos = "";
     localStorage.setItem(id, estado);
@@ -57,7 +61,22 @@ function hacerOpciones(id, estado){
     });
     activarBotones();
 }
+// function activarDroppable(Id, municipio){
+//     $(`#${Id}`).droppable({
+//         drop: function(event, ui) {
+//             var opcion = $(ui.draggable).attr('alt');
+//             var datos = JSON.parse(localStorage.getItem(municipio));
+//             datos[opcion] = true;
+//             localStorage.setItem(municipio, JSON.stringify(datos));
+//             var cambio = GenerarCartas(municipio);
+//             //Revisar esta linea cuando haga cambios, seguramente cambiar estructura
+//             $(`#${municipio}`).html() === undefined ? $('#campos').html(cambio): EliminarHtml(municipio), $('#campos').html(cambio);
+//         }
+//     })
+// }
 function Añadir(Codigo, Nombre) {
+    // var localidad = {'localidad': Nombre, 'Temperatura': true, 'Viento': false, 'Tiempo': true, 'Precipitacion': false}
+    // localStorage.getItem(Codigo) === null ? localStorage.setItem(Nombre, JSON.stringify(localidad)) : localStorage.removeItem(Codigo);
     localStorage.getItem(Codigo) === null ? localStorage.setItem(Codigo, Nombre) : localStorage.removeItem(Codigo);
     $(`#${Codigo}`).html() === undefined ? AñadirHtml(Codigo) : EliminarHtml(Codigo);
 }
@@ -66,7 +85,6 @@ function activarDraggable() {
         revert: true,
         revertDuration: 0,
         start: function (event, ui) {
-            // $("#Draggable").droppable("enable")
             $("#Draggable").droppable({
                 disable: false, 
                 drop: function (event, ui) {
@@ -100,8 +118,16 @@ function activarBotones() {
     });
 }
 function GenerarCartas(Codigo) {
-    sDatoNuevo = `<div class="card col" id="${Codigo}">  <div class="card-body>"> <h4 class="card-title"> ${localStorage.getItem(Codigo)}</h4>`;
-    sDatoNuevo += `<button class="btn-close" id="btn${Codigo}" value="${Codigo}"></button>`;
+    // var localidad = JSON.parse(localStorage.getItem(Codigo));
+    // sDatoNuevo = `<div class="card col" id="${Codigo}">  <div class="card-body>"> <h4 class="card-title"> ${localidad["localidad"]}</h4>`;
+    // sDatoNuevo += `<button class="btn-close" id="btn${Codigo}" value="${Codigo}"></button>`;
+    // localidad["Temperatura"] === 'true' ? sDatoNuevo += `<h5 class="bi bi-thermometer draggable2" role="img" alt="Temperatura">${localidad["Temperatura"]}</h5>` : "";
+    // localidad["Viento"] === 'true' ? sDatoNuevo += `<h5 class="bi bi-wind draggable2" role="img" alt="Viento">${localidad["Viento"]}</h5>` : "";
+    // localidad["Tiempo"] === 'true' ? sDatoNuevo += `<h5 class="bi bi-cloud draggable2" role="img" alt="Tiempo">${localidad["Tiempo"]}</h5>` : "";
+    // localidad["Precipitacion"] === 'true' ? sDatoNuevo += `<h5 class="bi bi-umbrella draggable2" role="img" alt="Precipitacion">${localidad["Precipitacion"]}</h5>` : "";
+    // sDatoNuevo += "</div></div>"
+    sDatoNuevo = `<div class="card col" id="${Codigo}">  <h4 class="card-title"> ${localStorage.getItem(Codigo)}</h4>`;
+    sDatoNuevo += `<button class="btn-close" id="btn${Codigo}" value="${Codigo}"></button> <div class="card-body>">`;
     localStorage.getItem("Temperatura") === 'true' ? sDatoNuevo += `<h5 class="bi bi-thermometer draggable2" role="img" alt="Temperatura"></h5>` : "";
     localStorage.getItem("Viento") === 'true' ? sDatoNuevo += `<h5 class="bi bi-wind draggable2" role="img" alt="Viento"></h5>` : "";
     localStorage.getItem("Tiempo") === 'true' ? sDatoNuevo += `<h5 class="bi bi-cloud draggable2" role="img" alt="Tiempo"></h5>` : "";
@@ -113,6 +139,7 @@ function EliminarHtml(Codigo) {
     $(`#${Codigo}`).remove();
     $("#campos").html() === '' ? $("#campos").html(sNoCampos) : "";
 }
+// https://www.htmlcinco.com/guardar-un-objeto-o-array-en-localstorage/
 function cargarPagina() {
     localStorage.getItem("Temperatura") === null ? localStorage.setItem("Temperatura", false) : "";
     localStorage.getItem("Viento") === null ? localStorage.setItem("Viento", false) : "";

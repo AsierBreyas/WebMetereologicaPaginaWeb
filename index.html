@@ -1,25 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="sass/style.sass">
     <script src="scripts/mapa.js" type="module"></script>
     <script src="scripts/Localizaciones.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 
 <body>
     <div class="container">
+        <header>
+            <h2>Web Meteorológica</h2>
+            <a class="a-disabled">Web</a>
+            <a class="a-enabled" href="">Api</a>
+        </header>
         <div class="row">
             <div class="col" id="map">
 
@@ -29,12 +34,12 @@
             <div class="col-sm-4 gy-2" id="opciones">
                 <h3>Botones</h3>
                 <div class="row row-cols-2 gx-2" id="configuracion">
-                    <div class="col"><button type="button" class="btn btn-dark container"><i
-                                class="bi bi-compass"></i></button>
+                    <div class="col"><button type="button" class="btn btn-dark container" id="btnMapa">
+                        <i class="bi bi-compass"></i></button>
                     </div>
                     <div class="col"><button type="button" class="btn btn-dark container">
                         <i class="bi bi-brightness-high-fill"></i></button></div>
-                </div>
+                    </div>
                 <h3>Arrastra y configura</h3>
                 <div class="row row-cols-4 gx-1" id="Draggable">
                     <div class="col draggable" role="img" alt="Temperatura"><h3 class="bi bi-thermometer"></h3></div>
