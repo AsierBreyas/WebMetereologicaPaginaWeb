@@ -24,21 +24,30 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19
 }).addTo(mymap);
 L.control.scale().addTo(mymap);
-aLocalizaciones = JSON.parse(sLocalizaciones);
-aLocalizaciones.forEach(element => {
-    var marker = L.marker([element.GpxY, element.GpxX]).on('click', function () { Añadir(element.Id, element.Nombre) });
+fetch('https://localhost:5001/api/Tiempo')
+    .then(response => response.json())
+    .then(registroTiempo => {
+        aPrueba = registroTiempo;
+        aPrueba.forEach(element => {
+    var marker = L.marker([parseFloat((element.latitud).replace(',', '.')), parseFloat((element.longitud).replace(',', '.'))]).on('click', function () { Añadir(element.municipio, element.municipio) });
     group.addLayer(marker);
     element.marker_id = group.getLayerId(marker);
 });
+    //   console.table(registroTiempo)
+    })
+
+aLocalizaciones = JSON.parse(sLocalizaciones);
+// aLocalizaciones.forEach(element => {
+//     var marker = L.marker([element.GpxY, element.GpxX]).on('click', function () { Añadir(element.Id, element.Nombre) });
+//     group.addLayer(marker);
+//     element.marker_id = group.getLayerId(marker);
+// });
 group.addTo(mymap);
 cargarPagina();
 $('#btnMapa').on('click', function (){ $('#map').toggle('slow')})
 $(".draggable").draggable({
     revert: true,
-    revertDuration: 0,
-    // start: function(event, ui){
-    //     $("#Draggable").droppable('disable');
-    // }
+    revertDuration: 0
 });
 $('#campos').droppable({
     drop: function (event, ui) {
@@ -46,9 +55,6 @@ $('#campos').droppable({
         localStorage.getItem(id) != 'true' ?   hacerOpciones(id, true) : ""; 
     }
 });
-// function ocultarMapa(){
-//     $('#map').toggle()
-// }
 function hacerOpciones(id, estado){
     sDatos = "";
     localStorage.setItem(id, estado);
@@ -76,7 +82,7 @@ function hacerOpciones(id, estado){
 // }
 function Añadir(Codigo, Nombre) {
     // var localidad = {'localidad': Nombre, 'Temperatura': true, 'Viento': false, 'Tiempo': true, 'Precipitacion': false}
-    // localStorage.getItem(Codigo) === null ? localStorage.setItem(Nombre, JSON.stringify(localidad)) : localStorage.removeItem(Codigo);
+    // localStorage.getItem(Nombre) === null ? localStorage.setItem(Nombre, JSON.stringify(localidad)) : localStorage.removeItem(Nombre);
     localStorage.getItem(Codigo) === null ? localStorage.setItem(Codigo, Nombre) : localStorage.removeItem(Codigo);
     $(`#${Codigo}`).html() === undefined ? AñadirHtml(Codigo) : EliminarHtml(Codigo);
 }
