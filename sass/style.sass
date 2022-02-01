@@ -4,8 +4,9 @@
 $borde-claro: #474747
 $shadow-borde-claro: #A1A1A1
 $card-body-claro: #939393
+$color-body: #C8C8C8       
 
-
+$body-bg: $color-body
 $card-bg: $card-body-claro
 $card-border-color: $borde-claro
 $card-border-width: 2px
@@ -16,13 +17,17 @@ $card-box-shadow: 10px 5px 5px $shadow-borde-claro
 #map
     width: 50%
     height: 500px
-    box-shadow: 5px 5px 5px #888
+    box-shadow: 5px 5px 5px $shadow-borde-claro
 .card
     display: inline
 .card-title
     display: inline
 .btn-close
     display: inline
-.card-body
-    display: flex
-    justify-content: center
+.div
+    margin-bottom: 1rem 
+    border: 2px solid $borde-claro
+#configuracion
+    margin: 0.5rem
+#campos
+    overflow: auto
