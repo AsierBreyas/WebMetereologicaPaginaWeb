@@ -76,23 +76,29 @@ function activarBotones() {
         localStorage.removeItem(this.value);
         $("#campos").html() === '' ? $("#campos").html(sNoCampos) : "";
     });
+    $(`.opcion`).on('click', function(){
+        opcion = $(this.id);
+        id = $(this.alt);
+        $(`#${id}`).hide();
+        localidad = JSON.parse(localStorage.getItem(id));
+        localidad[opcion] = false;
+        localStorage.setItem(localidad.localidad ,JSON.stringify(localidad));
+        hacerOpciones(opcion, id);
+    });
 }
 function GenerarDatos(Codigo){
     fetch(`https://localhost:5001/api/Tiempo/${Codigo}`).then(response => response.json()).then(unRegistroTiempo => {
-        var refLocalidad = JSON.parse(localStorage.getItem(Codigo));
-        console.table(refLocalidad);
         sDatoNuevo = `<div class="card col Droppable" id="${Codigo}">  <div class="card-body>"> <h4 class="card-title"> ${unRegistroTiempo["municipio"]}</h4>`;
         sDatoNuevo += `<button class="btn-close" id="btn${Codigo}" value="${Codigo}"></button>`;
-        sDatoNuevo += `<h5 class="bi bi-thermometer draggable2" id='${unRegistroTiempo["municipio"]}Temperatura' role="img" alt="Temperatura"> ${unRegistroTiempo["temperatura"]} ºC</h5>`;
-        sDatoNuevo += `<h5 class="bi bi-wind draggable2" id='${unRegistroTiempo["municipio"]}Viento' role="img" alt="Viento">${unRegistroTiempo["velocidadViento"]} km/h</h5>`;
-        sDatoNuevo += `<h5 class="bi bi-cloud draggable2" id='${unRegistroTiempo["municipio"]}Tiempo' role="img" alt="Tiempo"><img src='${unRegistroTiempo["pathImg"]}'></img></h5>`;
-        sDatoNuevo += `<h5 class="bi bi-umbrella draggable2" id='${unRegistroTiempo["municipio"]}Precipitacion' role="img" alt="Precipitacion">${unRegistroTiempo["precipitacionAcumulada"]}%</h5>`
+        sDatoNuevo += `<h5 class="bi bi-thermometer" id='${unRegistroTiempo["municipio"]}Temperatura' role="img" alt="Temperatura"> ${unRegistroTiempo["temperatura"]} ºC</h5><h5 class='bi bi-x-octagon opcion' id="Temperatura" role="img" alt="${unRegistroTiempo["municipio"]}"></h5>`;
+        sDatoNuevo += `<h5 class="bi bi-wind" id='${unRegistroTiempo["municipio"]}Viento' role="img" alt="Viento">${unRegistroTiempo["velocidadViento"]} km/h</h5><h5 class='bi bi-x-octagon opcion' id="Viento" role="img" alt="${unRegistroTiempo["municipio"]}"></h5>`;
+        sDatoNuevo += `<h5 class="bi bi-cloud" id='${unRegistroTiempo["municipio"]}Tiempo' role="img" alt="Tiempo"><img src='${unRegistroTiempo["pathImg"]}'></img></h5><h5 class='bi bi-x-octagon opcion' id="Tiempo" role="img" alt="${unRegistroTiempo["municipio"]}"></h5>`;
+        sDatoNuevo += `<h5 class="bi bi-umbrella" id='${unRegistroTiempo["municipio"]}Precipitacion' role="img" alt="Precipitacion">${unRegistroTiempo["precipitacionAcumulada"]}%</h5><h5 class='bi bi-x-octagon opcion' id="Precipitacion" role="img" alt="${unRegistroTiempo["municipio"]}"></h5>`
         sDatoNuevo += "</div></div>";
         ponerCartas(sDatoNuevo, Codigo);
     });
 }
 function ponerCartas(html, Codigo){
-    console.log(html);
     $("#campos").html() === sNoCampos ? $("#campos").html(html): $("#campos").html($("#campos").html() + html);
     hacerOpciones("Temperatura", Codigo);
     hacerOpciones("Viento", Codigo);
@@ -101,8 +107,13 @@ function ponerCartas(html, Codigo){
     activarBotones();
     activarDrop(Codigo);
 }
+// function ocultarHtml(opcion, id){
+//     localidad = JSON.parse(localStorage.getItem(id));
+//     localidad[opcion] = false;
+//     localStorage.setItem(localidad.localidad ,JSON.stringify(localidad));
+//     hacerOpciones(opcion, id);
+// }
 function hacerOpciones(opcion, Codigo){
-    console.log('Haciendo opciones');
     var refLocalidad = JSON.parse(localStorage.getItem(Codigo));
     refLocalidad[opcion] === false ? $(`#${Codigo}${opcion}`).hide(): $(`#${Codigo}${opcion}`).show();
 }
