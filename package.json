@@ -1,11 +1,11 @@
 {
   "name": "WebMeteoreologica",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "build": "parcel build index.html --public-url /2daw3/asierf/metereologia",
-    "start": "parcel serve index.html --open"
+    "start": "parcel serve index.html --open",
+    "proxy": "parcel build index.html"
   },
   "dependencies": {
     "bootstrap": "^5.1.3",
