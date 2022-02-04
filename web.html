@@ -10,7 +10,6 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="sass/style.sass">
     <script src="scripts/mapa.js" type="module"></script>
-    <script src="scripts/Localizaciones.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
@@ -30,10 +29,12 @@
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Tiempo-Web</a>
                   </li>
-                  <!-- Patata -->
-              <li class="nav-item">
-                <a class="nav-link" href="#">Api</a>
-              </li>
+                <li class="nav-item">
+                    <a class="nav-link">Asier Fernández González</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Trabajo de final de evaluacion</a>
+                </li>
             </ul>
           </div>
         </div>
@@ -52,13 +53,13 @@
                         <div class="col"><button type="button" class="btn btn-dark container" id="btnMapa" aria-label="controlDeMapa">
                                 <i class="bi bi-compass"></i></button>
                         </div>
-                        <div class="col"><button type="button" class="btn btn-dark container" aria-label="ModoOscuro">
-                                <i class="bi bi-brightness-high-fill"></i></button></div>
+                        <div class="col"><button type="button" class="btn btn-dark container" id="cambiaColor" aria-label="ModoOscuro">
+                                <i class="bi bi-brightness-high-fill iconoJackson"></i></button></div>
                     </div>
                 </div>
                 <div class="div">
                     <h3>Arrastra y configura</h3>
-                    <div class="row row-cols-4 gx-1" id="Draggable">
+                    <div class="row row-cols-5 gx-1" id="Draggable">
                         <div class="col draggable" role="img" alt="Temperatura">
                             <h3 class="bi bi-thermometer"></h3>
                         </div>
@@ -70,6 +71,9 @@
                         </div>
                         <div class="col draggable" role="img" alt="Precipitacion">
                             <h3 class="bi bi-umbrella"></h3>
+                        </div>
+                        <div class="col draggable" role="img" alt="Humedad">
+                            <h3 class="bi bi-water"></h3>
                         </div>
                     </div>
                 </div>
